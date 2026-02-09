@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filmograph-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filmograph-fe
+  template:
+    metadata:
+      labels:
+        app: filmograph-fe
+    spec:
+      containers:
+        - name: filmograph-fe
+          image: 1t1scool/filmograph-fe:latest
+          ports:
+            - containerPort: 80

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filmograph-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filmograph-service
+  template:
+    metadata:
+      labels:
+        app: filmograph-service
+    spec:
+      containers:
+        - name: filmograph-service
+          image: 1t1scool/filmograph-service:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgres:postgres@postgres:5432/filmograf"

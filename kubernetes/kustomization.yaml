@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - deployment-fe.yaml
+  - service-fe.yaml
+  - postgres.yaml
+  - job-seed-films.yaml
+
+images:
+  - name: filmograph-service
+    newName: filmograph-service
+    newTag: latest
+  - name: filmograph-fe
+    newName: filmograph-fe
+    newTag: latest

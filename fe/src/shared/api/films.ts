@@ -2,6 +2,7 @@ import type { FilmFromApi } from "@/shared/types";
 import type { Movie } from "@/shared/types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const GENRE_MAP: Record<string, Movie["genre"]> = {
   боевик: "action",
@@ -106,7 +107,7 @@ export function getMockFilms(): Movie[] {
   return filmsFromBackend.map((film, index) => ({
     id: `mock-${index + 1}`,
     title: film.name,
-    poster: `/images/${film.image}`,
+    poster: `${BASE_PATH}/images/${film.image}`,
     genre: genreMap[film.film_type.toLowerCase()] ?? "drama",
     durationMinutes: film.duration,
     isFavorite: false,
@@ -122,7 +123,7 @@ export async function fetchFilms(): Promise<Movie[]> {
     return data.map((film) => ({
       id: String(film.id),
       title: film.name,
-      poster: film.image,
+      poster: film.image.startsWith("data:") ? film.image : film.image.startsWith("http") ? film.image : film.image.startsWith("/") ? `${BASE_PATH}${film.image}` : `${BASE_PATH}/images/${film.image}`,
       genre: parseGenre(film),
       durationMinutes: film.duration ?? 0,
       isFavorite: false,
