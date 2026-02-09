@@ -16,4 +16,4 @@ spec:
         - name: filmograph-fe
           image: 1t1scool/filmograph-fe:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 80
