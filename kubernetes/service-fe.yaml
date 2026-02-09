@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: filmograph-service
+  name: filmograph-fe
 spec:
   selector:
-    app: filmograph-service
+    app: filmograph-fe
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8000
+      targetPort: 3000
