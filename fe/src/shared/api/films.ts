@@ -123,7 +123,7 @@ export async function fetchFilms(): Promise<Movie[]> {
     return data.map((film) => ({
       id: String(film.id),
       title: film.name,
-      poster: film.image.startsWith("http") ? film.image : film.image.startsWith("/") ? `${BASE_PATH}${film.image}` : `${BASE_PATH}/images/${film.image}`,
+      poster: film.image.startsWith("data:") ? film.image : film.image.startsWith("http") ? film.image : film.image.startsWith("/") ? `${BASE_PATH}${film.image}` : `${BASE_PATH}/images/${film.image}`,
       genre: parseGenre(film),
       durationMinutes: film.duration ?? 0,
       isFavorite: false,
