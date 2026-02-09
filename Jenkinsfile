@@ -33,12 +33,14 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDS}",
                                  usernameVariable: 'USER',
                                  passwordVariable: 'PASS')]) {
-                    sh """
-                        docker build -f fe/Dockerfile --build-arg NEXT_PUBLIC_API_URL=/api/filmograph -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER} -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest fe/
-                        echo \$PASS | docker login -u \$USER --password-stdin
-                        docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER}
-                        docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest
-                    """
+                    dir('fe') {
+                        sh """
+                            docker build -f Dockerfile --build-arg NEXT_PUBLIC_API_URL=/api/filmograph -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER} -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest .
+                            echo \$PASS | docker login -u \$USER --password-stdin
+                            docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER}
+                            docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest
+                        """
+                    }
                 }
             }
         }
