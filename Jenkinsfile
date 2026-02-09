@@ -35,7 +35,7 @@ pipeline {
                                  passwordVariable: 'PASS')]) {
                     dir('fe') {
                         sh """
-                            docker build -f Dockerfile --build-arg NEXT_PUBLIC_API_URL=/api/filmograph -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER} -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest .
+                            docker build -f Dockerfile --build-arg NEXT_PUBLIC_API_URL=/api/filmograph --build-arg NEXT_PUBLIC_BASE_PATH=/filmograph -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER} -t ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest .
                             echo \$PASS | docker login -u \$USER --password-stdin
                             docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER}
                             docker push ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:latest
@@ -50,6 +50,7 @@ pipeline {
                 sh """
                     sed -i "s|image: .*filmograph-service.*|image: ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:${BUILD_NUMBER}|g" kubernetes/deployment.yaml
                     sed -i "s|image: .*filmograph-fe.*|image: ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER}|g" kubernetes/deployment-fe.yaml
+                    sed -i "s|image: .*filmograph-service.*|image: ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:${BUILD_NUMBER}|g" kubernetes/job-seed-films.yaml
                     kubectl apply -k kubernetes/
                 """
             }

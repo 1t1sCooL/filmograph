@@ -1,6 +1,6 @@
 """Загрузка примеров фильмов в API (работает на Windows и Linux)."""
 import base64
-import json
+import os
 from pathlib import Path
 
 import requests
@@ -17,7 +17,8 @@ FILMS = [
     ("Ларри Краун", "Потеряв работу, мужчина средних лет отправляется в колледж за новым стартом в жизни.", "9.png", "комедия", 98),
 ]
 
-BASE_URL = "http://127.0.0.1:8000/films/"
+# В Kubernetes задайте API_BASE_URL (например http://filmograph-service) без слэша в конце
+BASE_URL = (os.environ.get("API_BASE_URL") or "http://127.0.0.1:8000").rstrip("/") + "/films/"
 IMAGES_PATH = Path(__file__).parent / "images"
 
 

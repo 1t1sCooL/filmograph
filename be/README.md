@@ -17,9 +17,10 @@ docker-compose up -d
 **Linux / macOS (или Git Bash на Windows):**
 
 ```commandline
-chmod +x upload.sh
 ./upload.sh
 ```
+
+Если после клона на сервере скрипт не запускается, выполните один раз: `chmod +x upload.sh`
 
 **Альтернатива (если установлен Python):** `pip install requests` и `python upload.py`
 
