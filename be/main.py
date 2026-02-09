@@ -56,7 +56,8 @@ def delete_film(film_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Film not found")
     return db_film
 
-# Точка входа: /api/films — для ingress, / — для локальной разработки (/films/)
+# Точка входа: /api/filmograph и /api/films — для ingress, / — для локальной разработки
 app = FastAPI()
+app.mount("/api/filmograph", films_app)
 app.mount("/api/films", films_app)
 app.mount("/", films_app)
