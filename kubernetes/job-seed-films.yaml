@@ -11,10 +11,17 @@ spec:
       containers:
         - name: seed
           image: 1t1scool/filmograph-service:latest
-          command: ["python", "upload.py"]
+          command:
+            [
+              "/bin/sh",
+              "-c",
+              'export API_BASE_URL="http://filmograph-service.${NAMESPACE}.svc.cluster.local" && exec python upload.py',
+            ]
           env:
-            - name: API_BASE_URL
-              value: "http://filmograph-service"
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           resources:
             requests:
               memory: "64Mi"
