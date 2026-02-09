@@ -1,0 +1,19 @@
+.wrapper { display: flex; align-items: center; gap: 33px; flex-wrap: wrap; }
+.pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; border: none; font-size: 14px; font-weight: 500;
+  cursor: pointer; color: rgba(0, 0, 0, 1);
+}
+.pill:hover { opacity: 0.9; }
+.pillActive { composes: pill; }
+.action .icon { background: rgba(234, 88, 11, 1); color: white; }
+.thriller .icon { background: rgba(23, 163, 74, 1); color: white; }
+.comedy .icon { background: rgba(36, 99, 235, 1); color: white; }
+.drama .icon { background: rgba(24, 24, 27, 1); color: white; }
+.icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 50%; font-size: 12px;
+}
+.iconInactive { background: #e5e7eb !important; color: #6b7280 !important; }
+.icon svg { width: 15px; height: 11px; }
+.iconInactive svg { width: 10px; height: 10px; }

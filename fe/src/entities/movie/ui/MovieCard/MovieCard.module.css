@@ -1,0 +1,157 @@
+.card {
+  width: 100%;
+  max-width: 350px;
+  height: 325px;
+  min-width: 0;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  opacity: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.link {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+.link[role="button"] {
+  cursor: pointer;
+}
+
+.poster {
+  width: 100%;
+  height: 192px;
+  object-fit: cover;
+  display: block;
+  opacity: 1;
+}
+
+.posterFallback {
+  width: 100%;
+  height: 192px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f3f4f6;
+  color: #9ca3af;
+}
+
+.posterFallback svg {
+  width: 48px;
+  height: 48px;
+}
+
+.posterFallback span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.body {
+  padding: 0;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(21, 37, 54, 1);
+  margin: 24px;
+  line-height: 1.3;
+}
+
+.details {
+  padding: 0 24px 0 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.genreTag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.genreAction {
+  background: rgba(234, 146, 99, 0.12);
+  color: rgba(226, 108, 45, 1);
+}
+
+.genreThriller {
+  background: rgba(73, 182, 78, 0.12);
+  color: rgba(73, 182, 78, 1);
+}
+
+.genreComedy {
+  background: rgba(135, 117, 210, 0.12);
+  color: rgba(135, 117, 210, 1);
+}
+
+.genreDrama {
+  background: rgba(149, 143, 143, 0.12);
+  color: rgba(149, 143, 143, 1);
+}
+
+.duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 1);
+}
+
+.duration svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px;
+  color: #d1d5db;
+  flex-shrink: 0;
+}
+
+.starFilled {
+  color: #fbbf24;
+}
+
+.starButton {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.starButton:hover {
+  opacity: 0.85;
+}
+
+.star svg {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  flex-shrink: 0;
+  display: block;
+}
