@@ -19,7 +19,4 @@ spec:
             - containerPort: 8000
           env:
             - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: filmograph-secrets
-                  key: DATABASE_URL
+              value: "postgresql://postgres:postgres@postgres:5432/filmograf"
