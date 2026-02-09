@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_USER = '1t1scool'
-        IMAGE_NAME = 'test-films-service'
+        IMAGE_NAME = 'filmograph-service'
         FULL_IMAGE = "${DOCKER_HUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}"
         LATEST_IMAGE = "${DOCKER_HUB_USER}/${IMAGE_NAME}:latest"
         DOCKER_HUB_CREDS = 'dockerhub'
