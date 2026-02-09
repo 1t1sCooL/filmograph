@@ -1,6 +1,8 @@
 """Загрузка примеров фильмов в API (работает на Windows и Linux)."""
 import base64
 import os
+import sys
+import time
 from pathlib import Path
 
 import requests
@@ -22,7 +24,26 @@ BASE_URL = (os.environ.get("API_BASE_URL") or "http://127.0.0.1:8000").rstrip("/
 IMAGES_PATH = Path(__file__).parent / "images"
 
 
+def wait_for_api(max_attempts=30, interval=2):
+    """Ждём, пока API станет доступен (для Kubernetes — backend может подниматься позже)."""
+    for attempt in range(1, max_attempts + 1):
+        try:
+            r = requests.get(BASE_URL, timeout=5)
+            r.raise_for_status()
+            print(f"API доступен (попытка {attempt})")
+            return
+        except requests.RequestException as e:
+            print(f"Попытка {attempt}/{max_attempts}: API недоступен — {e}")
+            if attempt == max_attempts:
+                raise
+            time.sleep(interval)
+
+
 def main():
+    print(f"URL API: {BASE_URL}")
+    wait_for_api()
+
+    failed = 0
     for name, description, image_filename, film_type, duration in FILMS:
         print(f"Добавляем фильм: {name}")
         full_image_path = IMAGES_PATH / image_filename
@@ -39,13 +60,20 @@ def main():
             "duration": duration,
         }
         try:
-            r = requests.post(BASE_URL, json=data, timeout=10)
+            r = requests.post(BASE_URL, json=data, timeout=30)
             r.raise_for_status()
             print(f"  OK (id={r.json().get('id', '?')})")
         except requests.RequestException as e:
+            failed += 1
             print(f"  Ошибка: {e}")
+            if hasattr(e, "response") and e.response is not None:
+                print(f"  Ответ: {e.response.text[:500]}")
         print("---")
-    print("Готово. Проверьте http://localhost:8000/films/")
+
+    if failed:
+        print(f"Готово с ошибками: не загружено {failed} из {len(FILMS)}")
+        sys.exit(1)
+    print("Готово. Все фильмы загружены.")
 
 
 if __name__ == "__main__":
