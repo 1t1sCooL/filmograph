@@ -19,8 +19,15 @@ FILMS = [
     ("Ларри Краун", "Потеряв работу, мужчина средних лет отправляется в колледж за новым стартом в жизни.", "9.png", "комедия", 98),
 ]
 
-# В Kubernetes задайте API_BASE_URL (например http://filmograph-service) без слэша в конце
-BASE_URL = (os.environ.get("API_BASE_URL") or "http://127.0.0.1:8000").rstrip("/") + "/films/"
+def _base_url():
+    # В Kubernetes NAMESPACE задаётся через downward API — строим FQDN сервиса
+    ns = os.environ.get("NAMESPACE")
+    if ns:
+        return f"http://filmograph-service.{ns}.svc.cluster.local".rstrip("/") + "/films/"
+    return (os.environ.get("API_BASE_URL") or "http://127.0.0.1:8000").rstrip("/") + "/films/"
+
+
+BASE_URL = _base_url()
 IMAGES_PATH = Path(__file__).parent / "images"
 
 
@@ -42,6 +49,16 @@ def wait_for_api(max_attempts=30, interval=2):
 def main():
     print(f"URL API: {BASE_URL}")
     wait_for_api()
+
+    try:
+        r = requests.get(BASE_URL, timeout=10)
+        r.raise_for_status()
+        existing = r.json()
+        if len(existing) >= len(FILMS):
+            print(f"Уже загружено {len(existing)} фильмов, пропуск.")
+            return
+    except requests.RequestException:
+        pass
 
     failed = 0
     for name, description, image_filename, film_type, duration in FILMS:

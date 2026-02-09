@@ -51,6 +51,7 @@ pipeline {
                     sed -i "s|image: .*filmograph-service.*|image: ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:${BUILD_NUMBER}|g" kubernetes/deployment.yaml
                     sed -i "s|image: .*filmograph-fe.*|image: ${DOCKER_HUB_USER}/${FRONTEND_IMAGE}:${BUILD_NUMBER}|g" kubernetes/deployment-fe.yaml
                     sed -i "s|image: .*filmograph-service.*|image: ${DOCKER_HUB_USER}/${BACKEND_IMAGE}:${BUILD_NUMBER}|g" kubernetes/job-seed-films.yaml
+                    kubectl delete job seed-films --ignore-not-found=true
                     kubectl apply -k kubernetes/
                 """
             }
