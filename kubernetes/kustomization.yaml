@@ -6,6 +6,7 @@ resources:
   - service.yaml
   - deployment-fe.yaml
   - service-fe.yaml
+  - postgres.yaml
 
 images:
   - name: filmograph-service
